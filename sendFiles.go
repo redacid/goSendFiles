@@ -241,7 +241,7 @@ func main() {
 		fmt.Printf("adminEmail: %s\n", config.AdminEmail)
 		fmt.Printf("logFile: %s\n", config.LogFile)
 		fmt.Printf("tmpDir: %s\n", config.TmpDir)
-		fmt.Printf("timeToSend: %s\n", config.TimeToSend)
+		fmt.Printf("timeToSend: %v\n", config.TimeToSend)
 
 	case command == "Run":
 		//color.Red("Application Logs")
@@ -327,47 +327,48 @@ func main() {
 
 
 		}
-	}
-	//rotate sendlog logfile
-	ntoday := time.Now()
-	tnow := ntoday.Format("20060102150405")
-	today := ntoday.Format("2006-01-02")
+		//rotate sendlog logfile
+		ntoday = time.Now()
+		tnow := ntoday.Format("20060102150405")
+		today = ntoday.Format("2006-01-02")
 
-	err = zipit(config.LogFile, config.LogFile+"_"+tnow+".zip")
-	if err != nil {
-		perror.Printf("[ERROR] Rotate log: %s\n",err)
-		log.Fatalf("[ERROR] Rotate log: %s\n",err)
+		err = zipit(config.LogFile, config.LogFile+"_"+tnow+".zip")
+		if err != nil {
+			perror.Printf("[ERROR] Rotate log: %s\n",err)
+			log.Fatalf("[ERROR] Rotate log: %s\n",err)
+		}
+
+		f.Close()
+		err = os.Remove(config.LogFile)
+		if err != nil {
+			perror.Printf("[ERROR] Remove oldlog:  %s\n",err)
+			//log.Fatalf("[ERROR] Remove oldlog: %s\n",err)
+		}
+
+		//--SEND EMAIL
+		mailbody := "SendLogs LogFile"
+		m := email.NewMessage("SendLogs LogFile "+today, mailbody)
+		mailFrom := mail.Address{Name: config.EmailFromName, Address: config.EmailFromAddr}
+		m.From = mailFrom
+
+		//m.To = []string{config.EmailTo}
+		m.To = strings.Split(config.AdminEmail,",")
+		attach := config.LogFile+"_"+tnow+".zip"
+		if err := m.Attach(attach); err != nil {
+			perror.Printf("[ERROR] Attach file: %s\n",err)
+			//log.Fatalf("[ERROR] Attach file: %s\n",err)
+		}
+		host, _, _ := net.SplitHostPort(config.SmtpHostPort)
+		auth := smtp.PlainAuth("", "", "", host)
+		if err := email.Send(config.SmtpHostPort, auth, m); err != nil {
+			perror.Printf("[ERROR] Send mail: %s\n",err)
+			//log.Fatalf("[ERROR] Send mail: %s\n",err)
+		} else {
+			pinfo.Printf("[INFO] Sended %s to %s\n",path.Base(attach),config.EmailTo)
+			///log.Printf("[INFO] Sended %s to %s\n",path.Base(attach),config.EmailTo)
+		}
 	}
 
-	f.Close()
-	err = os.Remove(config.LogFile)
-	if err != nil {
-		perror.Printf("[ERROR] Remove oldlog:  %s\n",err)
-		//log.Fatalf("[ERROR] Remove oldlog: %s\n",err)
-	}
-
-	//--SEND EMAIL
-	mailbody := "SendLogs LogFile"
-	m := email.NewMessage("SendLogs LogFile "+today, mailbody)
-	mailFrom := mail.Address{Name: config.EmailFromName, Address: config.EmailFromAddr}
-	m.From = mailFrom
-
-	//m.To = []string{config.EmailTo}
-	m.To = strings.Split(config.AdminEmail,",")
-	attach := config.LogFile+"_"+tnow+".zip"
-	if err := m.Attach(attach); err != nil {
-		perror.Printf("[ERROR] Attach file: %s\n",err)
-		//log.Fatalf("[ERROR] Attach file: %s\n",err)
-	}
-	host, _, _ := net.SplitHostPort(config.SmtpHostPort)
-	auth := smtp.PlainAuth("", "", "", host)
-	if err := email.Send(config.SmtpHostPort, auth, m); err != nil {
-		perror.Printf("[ERROR] Send mail: %s\n",err)
-		//log.Fatalf("[ERROR] Send mail: %s\n",err)
-	} else {
-		pinfo.Printf("[INFO] Sended %s to %s\n",path.Base(attach),config.EmailTo)
-		///log.Printf("[INFO] Sended %s to %s\n",path.Base(attach),config.EmailTo)
-	}
 
 
 

@@ -16,7 +16,7 @@
   "emailFromName": "logsender",
   "emailFromAddr": "logsender@domain.com",
   "emailTo": "user@domain.com,user2@domain.com",
-  "adminEmail": "redacid@ios.in.ua",
+  "adminEmail": "admin@domain.com",
   "logFile": "e:/dev/git/goSendLogs/gosend.log",
   "tmpDir": "e:/dev/git/testLogs/tmpdir",
   "timeToSend" : 86400
