@@ -1,0 +1,23 @@
+{
+  "ApplicationLogs": [
+    {
+      "appName": "UZ_APP2_timer",
+      "logPath": "e:/dev/git/testLogs/UZ_APP2_timer/logs",
+      "pattern": "*er*.*"
+    },
+    {
+      "appName": "UZ_APP1_agent-1",
+      "logPath": "e:/dev/git/testLogs/UZ_APP1_agent-1/logs",
+      "pattern": "ApplServer*.csl"
+    }
+
+  ],
+  "smtpHostPort": "localhost:25",
+  "emailFromName": "logsender",
+  "emailFromAddr": "logsender@domain.com",
+  "emailTo": "user@domain.com,user2@domain.com",
+  "adminEmail": "redacid@ios.in.ua",
+  "logFile": "e:/dev/git/goSendLogs/gosend.log",
+  "tmpDir": "e:/dev/git/testLogs/tmpdir",
+  "timeToSend" : 86400
+}
