@@ -58,10 +58,7 @@ func init() {
 	flag.StringVar(&command, "command", command, "" +
 		"Commands:\n " +
 		"\t\t showConfig - Show configuration file \n" +
-		"\t\t Run - Run Trigger \n" +
-		"\t\t execOnFrontends(need -execCommand <cmd>) - Execute command on frontends \n ")
-
-	//flag.StringVar(&writeWeightChanges, "writeWeightChanges", writeWeightChanges, "(yes\\no) Write weight changes ( need by -command changeWeight) or only present changes\n")
+		"\t\t Run - Run Trigger \n")
 }
 
 func zipit(source, target string) error {
@@ -226,7 +223,7 @@ func main() {
 		log.Fatalf("%s", "[ERROR] Invalid or undefined command, type -h to help \n")
 
 	case command == "showConfig":
-		color.Red("Application Logs")
+		color.Green("Application Logs")
 		for _, ALogs := range config.ApplicationLogs {
 			color.Cyan("appName: " + ALogs.AppName)
 			fmt.Printf("logPath: %s\n", ALogs.LogPath)
@@ -295,6 +292,12 @@ func main() {
 				pinfo.Printf("[INFO] Packing %s \n",config.TmpDir+"/"+ALogs.AppName+"/")
 				log.Printf("[INFO] Packing %s \n",config.TmpDir+"/"+ALogs.AppName+"/")
 			}
+			//delete tmpfiles
+			err = os.RemoveAll(config.TmpDir+"/"+ALogs.AppName+"/")
+			if err != nil {
+				perror.Printf("[ERROR] Remove tmpdirs: %s\n",err)
+				log.Fatalf("[ERROR] Remove tmpdirs: %s\n",err)
+			}
 
 			//--SEND EMAIL
 			m := email.NewMessage("Logs "+ALogs.AppName+"_"+today, mailbody)
@@ -319,7 +322,7 @@ func main() {
 			}
 
 			//delete archives
-			err = os.RemoveAll(config.TmpDir)
+			err = os.RemoveAll(config.TmpDir+"/output/"+ALogs.AppName+"_"+today+".zip")
 			if err != nil {
 				perror.Printf("[ERROR] Remove tmpdirs: %s\n",err)
 				log.Fatalf("[ERROR] Remove tmpdirs: %s\n",err)
