@@ -52,7 +52,6 @@ var command string
 //var perror color.New(color.FgHiRed,color.BgBlack)
 
 
-
 func init() {
 
 	flag.StringVar(&command, "command", command, "" +
