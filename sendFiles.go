@@ -296,7 +296,11 @@ func main() {
 			if err != nil {
 				perror.Printf("[ERROR] Remove tmpdirs: %s\n",err)
 				log.Fatalf("[ERROR] Remove tmpdirs: %s\n",err)
+			} else {
+				pinfo.Printf("[INFO] Deleted tmp %s \n",config.TmpDir+"/"+ALogs.AppName+"/")
+				log.Printf("[INFO] Deleted tmp %s \n",config.TmpDir+"/"+ALogs.AppName+"/")
 			}
+
 
 			//--SEND EMAIL
 			m := email.NewMessage("Logs "+ALogs.AppName+"_"+today, mailbody)
@@ -323,8 +327,11 @@ func main() {
 			//delete archives
 			err = os.RemoveAll(config.TmpDir+"/output/"+ALogs.AppName+"_"+today+".zip")
 			if err != nil {
-				perror.Printf("[ERROR] Remove tmpdirs: %s\n",err)
-				log.Fatalf("[ERROR] Remove tmpdirs: %s\n",err)
+				perror.Printf("[ERROR] Remove tmp archive: %s\n",err)
+				log.Fatalf("[ERROR] Remove tmp archive: %s\n",err)
+			} else {
+				pinfo.Printf("[INFO] Remove tmp archive %s\n",config.TmpDir+"/output/"+ALogs.AppName+"_"+today+".zip")
+				log.Printf("[INFO] Remove tmp archive %s\n",config.TmpDir+"/output/"+ALogs.AppName+"_"+today+".zip")
 			}
 
 		}
