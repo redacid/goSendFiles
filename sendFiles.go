@@ -325,7 +325,6 @@ func main() {
 				log.Fatalf("[ERROR] Remove tmpdirs: %s\n",err)
 			}
 
-
 		}
 		//rotate sendlog logfile
 		ntoday = time.Now()
