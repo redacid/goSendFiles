@@ -185,11 +185,11 @@ func main() {
 	//panounce := color.New(color.Bold, color.FgGreen).PrintlnFunc()
 	//warning := color.New(color.FgYellow)
 	perror := color.New(color.FgHiRed,color.BgBlack)
-	//appdir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	//if err != nil {
-	//	perror.Printf("[ERROR] %v", err)
-	//	log.Fatalf("[ERROR] %s",err)
-	//}
+	appdir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		perror.Printf("[ERROR] %v", err)
+		log.Fatalf("[ERROR] %s",err)
+	}
 
 	//Парсим файл конфигурации
 	//file, _ := os.Open(appdir+"\config.json")
@@ -199,7 +199,7 @@ func main() {
 	err = decoder.Decode(&config)
 
 	defer file.Close()
-
+	pinfo.Printf("[INFO] application dir %v\n", appdir)
 	//lll, err := os.Create(config.LogFile+"sfsdfsdf")
 	//defer lll.Close()
 	f, err1 := os.OpenFile(config.LogFile,  os.O_CREATE | os.O_RDWR | os.O_APPEND, 0666)
