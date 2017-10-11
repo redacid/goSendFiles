@@ -323,7 +323,8 @@ func main() {
 
 			host, _, _ := net.SplitHostPort(config.SmtpHostPort)
 			auth := smtp.PlainAuth("", "", "", host)
-			if err := email.Send(config.SmtpHostPort, auth, m); err != nil {
+			//if err := email.Send(config.SmtpHostPort, auth, m); err != nil {
+			if err := email.Send(config.SmtpHostPort, nil, m); err != nil {
 				perror.Printf("[ERROR] Send mail: %s\n",err)
 				log.Fatalf("[ERROR] Send mail: %s\n",err)
 			} else {
