@@ -203,15 +203,16 @@ func main() {
 	//defer lll.Close()
 	f, err1 := os.OpenFile(config.LogFile,  os.O_CREATE | os.O_RDWR | os.O_APPEND, 0666)
 	if err1 != nil {
-		perror.Printf("[ERROR] error opening log file: %v\n", appdir+"/config.json")
-		perror.Printf("[ERROR] error opening log file: %v", err1)
-		log.Fatalf("[ERROR] error opening log file: %v", err1)
+		perror.Printf("[ERROR] error opening log file: %v\n", err1)
+		perror.Printf("[ERROR] error opening log file: %v\n", config.LogFile")
+		log.Fatalf("[ERROR] error opening log file: %v\n", err1)
 	}
 	defer f.Close()
 	log.SetOutput(f)
 
 	if err != nil {
 		perror.Printf("[ERROR] Error read configuration file(config.json) %v\n", err)
+		perror.Printf("[ERROR] error opening log file: %v\n", appdir+"/config.json")
 		log.Fatalf("[ERROR] Error read configuration file(config.json) %v\n", err)
 
 	}
