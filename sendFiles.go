@@ -197,6 +197,13 @@ func main() {
 	decoder := json.NewDecoder(file)
 	config := new(Config)
 	err = decoder.Decode(&config)
+	
+	if err != nil {
+		perror.Printf("[ERROR] Error read configuration file(config.json) %v\n", err)
+		//perror.Printf("[ERROR] error opening log file: %v\n", appdir+"\config.json")
+		log.Fatalf("[ERROR] Error read configuration file(config.json) %v\n", err)
+
+	}
 
 	defer file.Close()
 	pinfo.Printf("[INFO] application dir %v\n", appdir)
@@ -212,12 +219,6 @@ func main() {
 	defer f.Close()
 	log.SetOutput(f)
 
-	if err != nil {
-		perror.Printf("[ERROR] Error read configuration file(config.json) %v\n", err)
-		//perror.Printf("[ERROR] error opening log file: %v\n", appdir+"\config.json")
-		log.Fatalf("[ERROR] Error read configuration file(config.json) %v\n", err)
-
-	}
 
 	switch {
 	default:
