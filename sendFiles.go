@@ -192,7 +192,8 @@ func main() {
 	}
 
 	//Парсим файл конфигурации
-	file, _ := os.Open(appdir+"\config.json")
+	//file, _ := os.Open(appdir+"\config.json")
+	file, _ := os.Open("c:/goSendFiles/config.json")
 	decoder := json.NewDecoder(file)
 	config := new(Config)
 	err = decoder.Decode(&config)
