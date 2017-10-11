@@ -309,7 +309,8 @@ func main() {
 
 			//--SEND EMAIL
 			m := email.NewMessage("Logs "+ALogs.AppName+"_"+today, mailbody)
-			mailFrom := mail.Address{Name: config.EmailFromName, Address: config.EmailFromAddr}
+			//mailFrom := mail.Address{Name: config.EmailFromName, Address: config.EmailFromAddr}
+			mailFrom := mail.Address{Address: config.EmailFromAddr}
 			m.From = mailFrom
 
 			//m.To = []string{config.EmailTo}
