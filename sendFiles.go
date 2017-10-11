@@ -16,8 +16,8 @@ import (
 	"archive/zip"
 	"strings"
 	"net/mail"
-	"net/smtp"
-	"net"
+	//"net/smtp"
+	//"net"
 	//	"strconv"
 )
 
