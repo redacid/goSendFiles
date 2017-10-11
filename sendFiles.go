@@ -205,6 +205,7 @@ func main() {
 	if err1 != nil {
 		perror.Printf("[ERROR] error opening log file: %v\n", err1)
 		perror.Printf("[ERROR] error opening log file: %v\n", config.LogFile)
+		perror.Printf("[ERROR] error opening log file: %v\n", appdir+"/config.json")
 		log.Fatalf("[ERROR] error opening log file: %v\n", err1)
 	}
 	defer f.Close()
