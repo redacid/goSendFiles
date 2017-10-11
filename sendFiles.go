@@ -204,7 +204,7 @@ func main() {
 	f, err1 := os.OpenFile(config.LogFile,  os.O_CREATE | os.O_RDWR | os.O_APPEND, 0666)
 	if err1 != nil {
 		perror.Printf("[ERROR] error opening log file: %v\n", err1)
-		perror.Printf("[ERROR] error opening log file: %v\n", config.LogFile")
+		perror.Printf("[ERROR] error opening log file: %v\n", config.LogFile)
 		log.Fatalf("[ERROR] error opening log file: %v\n", err1)
 	}
 	defer f.Close()
