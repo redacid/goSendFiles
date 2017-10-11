@@ -192,7 +192,7 @@ func main() {
 	}
 
 	//Парсим файл конфигурации
-	file, _ := os.Open(appdir+"/config.json")
+	file, _ := os.Open(appdir+"\config.json")
 	decoder := json.NewDecoder(file)
 	config := new(Config)
 	err = decoder.Decode(&config)
@@ -203,7 +203,7 @@ func main() {
 	//defer lll.Close()
 	f, err1 := os.OpenFile(config.LogFile,  os.O_CREATE | os.O_RDWR | os.O_APPEND, 0666)
 	if err1 != nil {
-		perror.Printf("[ERROR] error opening log file: %v", appdir+"/config.json")
+		perror.Printf("[ERROR] error opening log file: %v", appdir+"\config.json")
 		perror.Printf("[ERROR] error opening log file: %v", err1)
 		log.Fatalf("[ERROR] error opening log file: %v", err1)
 	}
