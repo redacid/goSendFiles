@@ -185,11 +185,11 @@ func main() {
 	//panounce := color.New(color.Bold, color.FgGreen).PrintlnFunc()
 	//warning := color.New(color.FgYellow)
 	perror := color.New(color.FgHiRed,color.BgBlack)
-	appdir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		perror.Printf("[ERROR] %v", err)
-		log.Fatalf("[ERROR] %s",err)
-	}
+	//appdir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	//if err != nil {
+	//	perror.Printf("[ERROR] %v", err)
+	//	log.Fatalf("[ERROR] %s",err)
+	//}
 
 	//Парсим файл конфигурации
 	//file, _ := os.Open(appdir+"\config.json")
