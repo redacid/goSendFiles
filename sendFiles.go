@@ -307,7 +307,7 @@ func main() {
 			}
 
 
-			//--SEND EMAIL
+			//send mail
 			m := email.NewMessage("Logs "+ALogs.AppName+"_"+today, mailbody)
 			//mailFrom := mail.Address{Name: config.EmailFromName, Address: config.EmailFromAddr}
 			mailFrom := mail.Address{Address: config.EmailFromAddr}
@@ -347,6 +347,7 @@ func main() {
 		ntoday = time.Now()
 		tnow := ntoday.Format("20060102150405")
 		today = ntoday.Format("2006-01-02")
+		host, err := os.Hostname()
 
 		err = zipit(config.LogFile, config.LogFile+"_"+tnow+".zip")
 		if err != nil {
@@ -361,9 +362,9 @@ func main() {
 			//log.Fatalf("[ERROR] Remove oldlog: %s\n",err)
 		}
 
-		//--SEND EMAIL
-		mailbody := "SendLogs LogFile"
-		m := email.NewMessage("SendLogs LogFile "+today, mailbody)
+		//send mail
+		mailbody := "SendLogs LogFile "+host
+		m := email.NewMessage("SendLogs LogFile "+host+" "+today, mailbody)
 		mailFrom := mail.Address{Name: config.EmailFromName, Address: config.EmailFromAddr}
 		m.From = mailFrom
 
