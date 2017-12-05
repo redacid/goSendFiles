@@ -81,6 +81,7 @@ func zipit(source, target string) error {
 		baseDir = ""
 	}
 
+
 	filepath.Walk(source, func(path1 string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -90,6 +91,20 @@ func zipit(source, target string) error {
 		if err != nil {
 			return err
 		}
+		loc, _ := time.LoadLocation("Europe/Kiev")
+		//var testTime = time.Date(2009, time.November, 10, 23, 45, 58, 0, time.UTC)
+
+		oldtime := header.ModTime()
+		//fmt.Println("[OLD]", oldtime )
+		newtime := oldtime.In(loc)
+		//fmt.Println("[NEW]", newtime)
+		//fmt.Println("[MINUS]", newtime.Sub(oldtime))
+
+		//Испарвляем время создания файла на локальное вместо UTC
+		_, zoneOffset:=newtime.Zone()
+		//fmt.Println("[ZoneOffset]",zoneOffset/60/60)
+		zoneOffset=zoneOffset/60/60
+		header.SetModTime(newtime.Local().Add(time.Hour*time.Duration(zoneOffset)))
 
 		if baseDir != "" {
 			header.Name = filepath.Join(baseDir, strings.TrimPrefix(path1, source))
@@ -101,14 +116,20 @@ func zipit(source, target string) error {
 
 		} else {
 			header.Method = zip.Deflate
-
 		}
+		//fmt.PrintLn("Fileinfo"+header.FileInfo)
 		//fmt.Print("path: "+path1+"\n")
 		//fmt.Print("header: "+header.Name+"\n")
 
+		outTime := header.ModTime()
+		if !outTime.Equal(oldtime) {
+			fmt.Errorf("times don't match: got %s, want %s", outTime, oldtime)
+		} else {
+			fmt.Printf("times match: got %s, want %s", outTime, oldtime)
+		}
+
 
 		writer, err := archive.CreateHeader(header)
-
 		if err != nil {
 			return err
 		}
@@ -276,6 +297,7 @@ func main() {
 				//fmt.Println("===Now time : ", nowtime)
 
 				if (nowtime-modifiedtime) <= config.TimeToSend {
+					//loc, _ := time.LoadLocation("Europe/Kiev")
 					//info.Printf("File match %s\n",match)
 					os.MkdirAll(config.TmpDir+"/"+ALogs.AppName,0666)
 					//pinfo.Printf("[INFO] Copy file %s\n",path.Base(match))
