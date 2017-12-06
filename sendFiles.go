@@ -91,9 +91,11 @@ func zipit(source, target string) error {
 		if err != nil {
 			return err
 		}
-		loc, _ := time.LoadLocation("Europe/Kiev")
+		//loc, _ := time.LoadLocation("Europe/Kiev")
+		//loc, _ := time.LoadLocation("Европа/Київ")
+		loc, _ := time.LoadLocation("Local")
 		//var testTime = time.Date(2009, time.November, 10, 23, 45, 58, 0, time.UTC)
-
+		//fmt.Println("[LOCATION]", loc)
 		oldtime := header.ModTime()
 		//fmt.Println("[OLD]", oldtime )
 		newtime := oldtime.In(loc)
@@ -101,8 +103,9 @@ func zipit(source, target string) error {
 		//fmt.Println("[MINUS]", newtime.Sub(oldtime))
 
 		//Испарвляем время создания файла на локальное вместо UTC
+		//zname, zoneOffset:=newtime.Zone()
 		_, zoneOffset:=newtime.Zone()
-		//fmt.Println("[ZoneOffset]",zoneOffset/60/60)
+		//fmt.Println(zname,zoneOffset/60/60)
 		zoneOffset=zoneOffset/60/60
 		header.SetModTime(newtime.Local().Add(time.Hour*time.Duration(zoneOffset)))
 
@@ -367,7 +370,7 @@ func main() {
 		}
 		//rotate sendlog logfile
 		ntoday = time.Now()
-		tnow := ntoday.Format("20060102150405")
+		tnow := ntoday.Format("2006_01_02_15-04-05")
 		today = ntoday.Format("2006-01-02")
 		host, err := os.Hostname()
 
